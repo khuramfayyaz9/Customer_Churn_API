@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Churn Prediction</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <h1>Customer Churn Prediction</h1>
+
+    <p>Enter customer information to predict whether the customer will leave or stay.</p>
+
+    <form id="predictionForm">
+
+        <h2>Customer Information</h2>
+
+        <label>Senior Citizen:</label>
+        <input type="number" id="SeniorCitizen" required>
+        <br><br>
+
+        <label>Tenure:</label>
+        <input type="number" id="tenure" required>
+        <br><br>
+
+        <label>Monthly Charges:</label>
+        <input type="number" step="0.01" id="MonthlyCharges" required>
+        <br><br>
+
+        <label>Total Charges:</label>
+        <input type="number" step="0.01" id="TotalCharges" required>
+        <br><br>
+
+        <label>Gender:</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <br><br>
+
+        <label>Partner:</label>
+        <select id="Partner">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <br><br>
+
+        <label>Dependents:</label>
+        <select id="Dependents">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <br><br>
+
+        
+
+<label>Phone Service:</label>
+<select id="PhoneService">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+</select>
+<br><br>
+
+<label>Multiple Lines:</label>
+<select id="MultipleLines">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No phone service">No phone service</option>
+</select>
+<br><br>
+
+<label>Internet Service:</label>
+<select id="InternetService">
+    <option value="DSL">DSL</option>
+    <option value="Fiber optic">Fiber optic</option>
+    <option value="No">No</option>
+</select>
+<br><br>
+
+<label>Online Security:</label>
+<select id="OnlineSecurity">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+
+<label>Online Backup:</label>
+<select id="OnlineBackup">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+
+<label>Device Protection:</label>
+<select id="DeviceProtection">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+<label>Tech Support:</label>
+<select id="TechSupport">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+
+<label>Streaming TV:</label>
+<select id="StreamingTV">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+
+<label>Streaming Movies:</label>
+<select id="StreamingMovies">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+</select>
+<br><br>
+
+<label>Contract:</label>
+<select id="Contract">
+    <option value="Month-to-month">Month-to-month</option>
+    <option value="One year">One year</option>
+    <option value="Two year">Two year</option>
+</select>
+<br><br>
+
+<label>Paperless Billing:</label>
+<select id="PaperlessBilling">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+</select>
+<br><br>
+
+<label>Payment Method:</label>
+<select id="PaymentMethod">
+    <option value="Electronic check">Electronic check</option>
+    <option value="Mailed check">Mailed check</option>
+    <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+    <option value="Credit card (automatic)">Credit card (automatic)</option>
+</select>
+<br><br>
+<button type="submit">Predict</button>
+
+    </form>
+    <p id="result"></p>
+    </body>
+    <script>
+
+document.getElementById("predictionForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const data = {
+        SeniorCitizen: Number(document.getElementById("SeniorCitizen").value),
+        tenure: Number(document.getElementById("tenure").value),
+        MonthlyCharges: Number(document.getElementById("MonthlyCharges").value),
+        TotalCharges: Number(document.getElementById("TotalCharges").value),
+
+        gender: document.getElementById("gender").value,
+        Partner: document.getElementById("Partner").value,
+        Dependents: document.getElementById("Dependents").value,
+        PhoneService: document.getElementById("PhoneService").value,
+        MultipleLines: document.getElementById("MultipleLines").value,
+        InternetService: document.getElementById("InternetService").value,
+        OnlineSecurity: document.getElementById("OnlineSecurity").value,
+        OnlineBackup: document.getElementById("OnlineBackup").value,
+        DeviceProtection: document.getElementById("DeviceProtection").value,
+        TechSupport: document.getElementById("TechSupport").value,
+        StreamingTV: document.getElementById("StreamingTV").value,
+        StreamingMovies: document.getElementById("StreamingMovies").value,
+        Contract: document.getElementById("Contract").value,
+        PaperlessBilling: document.getElementById("PaperlessBilling").value,
+        PaymentMethod: document.getElementById("PaymentMethod").value
+    };
+
+    console.log(data);
+const response = await fetch("/predict", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+});
+
+const result = await response.json();
+
+console.log(result);
+document.getElementById("result").textContent =
+    "Prediction: " + result.prediction;
+});
+</script>
+
+</body>
+</html>
